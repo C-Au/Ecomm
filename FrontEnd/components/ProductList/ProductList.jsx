@@ -96,21 +96,23 @@ function ProductList() {
   {
     /* This can be moved into a ProductList Component */
   }
-  <div>
-    {products.map((product) => {
-      {
-        /* This can be moved into a SingleProduct Component */
-      }
-      return (
-        <div>
-          <h4>{product.name}</h4>
-          <p>{product.description}</p>
-          <p>{product.price}</p>
-          <img src="" alt={product.name} height="200px" width="200px" />
-        </div>
-      );
-    })}
-  </div>;
+  return (
+    <div>
+      {products.map((product) => {
+        {
+          /* This can be moved into a SingleProduct Component */
+        }
+        return (
+          <div>
+            <h4>{product.name}</h4>
+            <p>{product.description}</p>
+            <p>{product.price}</p>
+            <img src="" alt={product.name} height="200px" width="200px" />
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 export default ProductList;
