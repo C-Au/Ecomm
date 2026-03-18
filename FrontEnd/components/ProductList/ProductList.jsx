@@ -1,3 +1,5 @@
+import SingleProduct from "../SingleProduct/SingleProduct";
+
 const products = [
   {
     productId: "839201",
@@ -98,19 +100,13 @@ function ProductList() {
   }
   return (
     <div>
-      {products.map((product) => {
-        {
-          /* This can be moved into a SingleProduct Component */
-        }
-        return (
-          <div>
-            <h4>{product.name}</h4>
-            <p>{product.description}</p>
-            <p>{product.price}</p>
-            <img src="" alt={product.name} height="200px" width="200px" />
-          </div>
-        );
+      <h1>Product List</h1>
+
+      {products.map((p) => {
+        return <SingleProduct product={p} />;
       })}
+
+      <p>All products are in the list above</p>
     </div>
   );
 }
