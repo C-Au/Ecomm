@@ -113,3 +113,8 @@ function onHttpStart() {
 }
 
 app.listen(HTTP_PORT, onHttpStart);
+
+
+// 1) Run node index.js
+// 2) Visit http://localhost:8080/products in your browser
+// 3) Check your terminal — you'll see the products array printed there
