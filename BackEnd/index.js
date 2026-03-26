@@ -103,6 +103,7 @@ app.get("/products", (req, res) => {
       picture: "hair-brush.jpg",
     },
   ];
+  console.log(products);
   res.json({ data: products });
 });
 
