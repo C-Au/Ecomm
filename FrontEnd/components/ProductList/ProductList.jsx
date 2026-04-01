@@ -140,5 +140,4 @@ export default ProductList;
 // );
 ////////////////////////////////////////////////////////////
 
-// 1) Don't know where to add console.log() in ProductList.jsx or should console.log() be in the backend in index.js?
-// 2) How do I get an "response" from a call?
+
