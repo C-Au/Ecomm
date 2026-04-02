@@ -96,7 +96,7 @@ import axios from "axios";
 //   },
 // ];
 
-function ProductList() {
+export default function ProductList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -140,7 +140,7 @@ function ProductList() {
   );
 }
 
-export default ProductList;
+// export default ProductList;
 
 // return (
 //   <div>
