@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 const HTTP_PORT = process.env.PORT || 8080;
+const cors = require("cors");
+
+app.use(cors());
 
 app.use(express.static("public"));
 

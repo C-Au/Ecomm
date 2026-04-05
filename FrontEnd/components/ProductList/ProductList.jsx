@@ -103,7 +103,7 @@ export default function ProductList() {
 
   useEffect(() => {
     axios
-      .get("/api/products") // <-- FIXED ENDPOINT
+      .get("http://localhost:8080/products") // <-- FIXED ENDPOINT
       .then((response) => {
         const data = response?.data;
         console.log(data);
@@ -117,14 +117,14 @@ export default function ProductList() {
       })
       .catch((err) => {
         console.error("Request failed:", err);
-        setError("Failed to load expenses.");
+        setError("Failed to load products.");
       })
       .finally(() => {
         setLoading(false);
       });
   }, []);
 
-  if (loading) return <p>Loading expenses…</p>;
+  if (loading) return <p>Loading products…</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
 
   return (
