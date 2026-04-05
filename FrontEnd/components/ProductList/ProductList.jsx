@@ -103,10 +103,10 @@ export default function ProductList() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/products") // <-- FIXED ENDPOINT
+      .get("/api/products") // <-- FIXED ENDPOINT
       .then((response) => {
         const data = response?.data;
-
+        console.log(data);
         if (!Array.isArray(data)) {
           setError("Server returned unexpected data format.");
           setProducts([]);
@@ -126,7 +126,7 @@ export default function ProductList() {
 
   if (loading) return <p>Loading expenses…</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
- 
+
   return (
     <div>
       <h1>Product List</h1>
