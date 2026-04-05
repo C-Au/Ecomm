@@ -107,8 +107,7 @@ app.get("/products", (req, res) => {
     },
   ];
 
-  res.json({ data: products });
-  console.log(products);
+  res.json(products);
 });
 
 function onHttpStart() {
