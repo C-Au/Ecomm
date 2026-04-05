@@ -106,7 +106,7 @@ export default function ProductList() {
       .get("http://localhost:8080/products") // <-- FIXED ENDPOINT
       .then((response) => {
         const data = response?.data;
-        console.log(data);
+        console.log(data); // Format of the variable data is printed out in the terminal
         if (!Array.isArray(data)) {
           setError("Server returned unexpected data format.");
           setProducts([]);
