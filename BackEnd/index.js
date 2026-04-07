@@ -3,16 +3,7 @@ const app = express();
 const HTTP_PORT = process.env.PORT || 8080;
 const cors = require("cors");
 
-app.use(cors());
-
-app.use(express.static("public"));
-
-app.get("/", (req, res) => {
-  res.send("Data");
-});
-
-app.get("/products", (req, res) => {
-  const products = [
+const productList = [
     {
       productId: "839201",
       name: "Wireless Mouse",
@@ -107,8 +98,35 @@ app.get("/products", (req, res) => {
     },
   ];
 
-  res.json(products);
+app.use(cors());
+
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.send("Data");
 });
+
+app.get("/products", (req, res) => {
+  res.json(productList); // {data : productsList}
+});
+
+app.get("/product/search_id/:id", (req, res) => {
+  const productId = req.params.id;
+
+  // try to find the prouct
+  const currProduct = productList.find((p) => {
+    return p.productId == productId;
+  })
+
+  // if found return it
+  if (currProduct) {
+    res.json(currProduct);
+  } else {
+    res.status(404).send(`Product ${productId} cannot be found!`);
+  }
+})
+
+// GET /product/search_cat/:cat
 
 function onHttpStart() {
   console.log("Express http server listening on: " + HTTP_PORT);
@@ -119,3 +137,4 @@ app.listen(HTTP_PORT, onHttpStart);
 // 1) Type in "node index.js" to run backend
 // 2) Visit http://localhost:8080/products in your browser
 // 3) Check your terminal — you'll see the products array printed there
+  

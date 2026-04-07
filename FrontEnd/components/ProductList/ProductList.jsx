@@ -1,5 +1,6 @@
 import SingleProduct from "../SingleProduct/SingleProduct";
 import { useEffect, useState } from "react";
+import {Link} from "react-router-dom";
 import axios from "axios";
 
 // const products = [
@@ -105,6 +106,7 @@ export default function ProductList() {
     axios
       .get("http://localhost:8080/products") // <-- FIXED ENDPOINT
       .then((response) => {
+        console.log(response);
         const data = response?.data;
         console.log(data); // Format of the variable data is printed out in the terminal
         if (!Array.isArray(data)) {
@@ -132,7 +134,9 @@ export default function ProductList() {
       <h1>Product List</h1>
 
       {products.map((p) => {
-        return <SingleProduct product={p} />;
+        return <Link to={`product/${p.productId}`}>
+          <SingleProduct product={p} />
+        </Link>;
       })}
 
       <p>All products are in the list above</p>

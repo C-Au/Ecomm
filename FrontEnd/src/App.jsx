@@ -1,5 +1,6 @@
 import { Routes, Route, Link } from "react-router-dom";
 import Home from "../pages/Home/Home";
+import SingleProductPage from "../pages/SingleProductPage/SingleProductPage";
 import "./App.css";
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/product/:id" element={<SingleProductPage />} />
       </Routes>
     </div>
   );
