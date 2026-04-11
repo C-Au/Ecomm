@@ -144,33 +144,4 @@ export default function ProductList() {
   );
 }
 
-// export default ProductList;
 
-// return (
-//   <div>
-//     <h1>Expense data</h1>
-
-//     {expList.map((expense, index) => {
-//       const { date, description, category } = expense || {};
-
-//       return (
-//         <div
-//           key={index}
-//           style={{
-//             border: "1px solid black",
-//             padding: "8px",
-//             marginBottom: "8px",
-//           }}
-//         >
-//           <p>{date ?? "No date provided"}</p>
-//           <p>{description ?? "No description provided"}</p>
-//           <p>{category ?? "No category provided"}</p>
-//         </div>
-//       );
-//     })}
-//   </div>
-// );
-////////////////////////////////////////////////////////////
-
-// 1) Don't know where to add console.log() in ProductList.jsx or should console.log() be in the backend in index.js?
-// 2) How do I get an "response" from a call?
