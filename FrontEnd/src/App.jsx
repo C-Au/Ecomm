@@ -19,6 +19,11 @@ function App() {
 export default App;
 
 /*
+
+Next task Apr 22, 2026:
++update the home page with some better CSS
++Edit products page which contains a form; look skool.com html form if not there google search 
+
 FRONT END:
 + Home page that shows all products in a nice order
 
