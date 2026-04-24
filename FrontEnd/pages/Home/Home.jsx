@@ -1,10 +1,13 @@
 import ProductList from "../../components/ProductList/ProductList";
-
+import "./Home.css";
 
 function Home() {
   return (
-    <div>
-      <h2>Welcome! You're on the home page now.</h2>
+    <div className="home-container">
+      <div className="home-hero">
+        <h2>Welcome to <span className="accent">ShopHaus</span></h2>
+        <p>Browse our latest products and find something you love.</p>
+      </div>
       <ProductList />
     </div>
   );

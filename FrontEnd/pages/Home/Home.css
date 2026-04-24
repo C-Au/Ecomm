@@ -1,0 +1,33 @@
+/* ── Home Page ─────────────────────────────────────────────── */
+.home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* Hero banner */
+.home-hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #161d30 0%, #1a2540 50%, #1f3060 100%);
+  color: white;
+  border-radius: 16px;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
+}
+
+.home-hero h2 {
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 0.75rem;
+}
+
+.home-hero p {
+  font-size: 1.15rem;
+  color: #a0aec0;
+}
+
+.home-hero .accent {
+  color: #e94560;
+}

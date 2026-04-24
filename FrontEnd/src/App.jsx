@@ -5,13 +5,17 @@ import "./App.css";
 
 function App() {
   return (
-    <div>
-      <p>HOME PAGE</p>
+    <div className="app-wrapper">
+      <nav className="navbar">
+        <span className="navbar-brand">SHOP<span>HAUS</span></span>
+      </nav>
 
+      <div className="page-content">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<SingleProductPage />} />
       </Routes>
+      </div>
     </div>
   );
 }

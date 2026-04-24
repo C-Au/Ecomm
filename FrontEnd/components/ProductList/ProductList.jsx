@@ -3,6 +3,7 @@ import SlideDeck from "../SlideDeck/SlideDeck";
 import { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
+import "./ProductList.css";
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
@@ -33,12 +34,12 @@ export default function ProductList() {
       });
   }, []);
 
-  if (loading) return <p>Loading products…</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (loading) return <p className="product-list-loading">Loading products…</p>;
+  if (error) return <p className="product-list-error">{error}</p>;
 
   return (
-    <div>
-      <h1>Product List</h1>
+    <div className="product-list-container">
+      <h1 className="product-list-title">Our Products</h1>
 
       {/*products.map((p) => {
         return <Link to={`product/${p.productId}`}>
@@ -53,7 +54,7 @@ export default function ProductList() {
         } 
       />
 
-      <p>All products are in the list above</p>
+      <p className="product-list-footer">Showing all available products</p>
     </div>
   );
 }

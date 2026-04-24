@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./SlideDeck.css";
 
 function SlideDeck({items}) {
     const [index, setIndex] = useState(0);
@@ -17,13 +18,13 @@ function SlideDeck({items}) {
 
     
     return (
-        <div style={{border: "1px solid black", padding: "10px", width: "300px"}}>
-            <h2>Welcome! To slide deck.</h2>
-            <div>
-                <button onClick={handlePrev}>Prev</button>
+        <div className="slide-deck-container">
+            <div className="slide-deck-viewer">
+                <button className="slide-btn" onClick={handlePrev} disabled={index === 0}>&#8592;</button>
                 {items[index]}
-                <button onClick={handleNext}>Next</button>
+                <button className="slide-btn" onClick={handleNext} disabled={index === items.length - 1}>&#8594;</button>
             </div>
+            <p className="slide-counter">{index + 1} / {items.length}</p>
         </div>
     );
 }
