@@ -100,6 +100,16 @@ const productList = [
 
 app.use(cors());
 
+// ============================================================
+// STEP 1A — Tell Express to read JSON data that the browser sends us.
+// Without this line, when the front-end sends us a new product's
+// details, the server would receive nothing.  express.json() is a
+// "middleware" — think of it as a translator that reads the
+// incoming message and converts it into a plain JavaScript object
+// so we can use it with req.body below.
+// ============================================================
+app.use(express.json());
+
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
@@ -125,6 +135,117 @@ app.get("/product/search_id/:id", (req, res) => {
     res.status(404).send(`Product ${productId} cannot be found!`);
   }
 })
+
+// ============================================================
+// STEP 1B — POST route: ADD a brand new product.
+//
+// "POST" is the HTTP verb the browser uses to say "I am sending
+// you new data to save."  The URL we choose is /products/add.
+// The front-end will call axios.post("http://localhost:8080/products/add", formData)
+// and that form data will land here inside req.body.
+// ============================================================
+app.post("/products/add", (req, res) => {
+
+  // req.body contains the object the front-end sent us.
+  // We destructure it — meaning we pull out each field by name
+  // from that object into its own variable.
+  const { name, price, description, picture } = req.body;
+
+  // Build a brand new product object.
+  // We generate a random 6-digit ID so every product is unique.
+  // Math.random() gives a decimal 0-1, multiply by 900000 gives
+  // a number up to 900000, add 100000 so it is never less than
+  // 100000, Math.floor() removes the decimals, .toString() turns
+  // the number into text so it matches how the other IDs look.
+  const newProduct = {
+    productId: Math.floor(Math.random() * 900000 + 100000).toString(),
+    name: name,
+    price: parseFloat(price),   // parseFloat converts "9.99" (text) to 9.99 (number)
+    description: description,
+    picture: picture || "placeholder.jpg",  // if no picture was provided, use a fallback
+  };
+
+  // Push the new product onto the end of our productList array —
+  // the same array that the GET /products route reads from.
+  productList.push(newProduct);
+
+  // Send the new product back to the front-end so it can show it
+  // immediately without reloading the page.
+  // Status 201 means "Created" — a more specific version of 200 OK.
+  res.status(201).json(newProduct);
+});
+
+
+// ============================================================
+// STEP 1C — PUT route: EDIT an existing product.
+//
+// "PUT" is the HTTP verb the browser uses to say "I want to
+// replace/update data that already exists."
+// The :id in the URL is a wildcard — whatever the front-end puts
+// there is accessible as req.params.id.
+// Example URL: PUT http://localhost:8080/products/edit/839201
+// ============================================================
+app.put("/products/edit/:id", (req, res) => {
+
+  // Grab the product ID out of the URL
+  const productId = req.params.id;
+
+  // Grab the updated fields out of the request body
+  const { name, price, description, picture } = req.body;
+
+  // findIndex works like find() but returns the POSITION (index)
+  // of the matching item in the array instead of the item itself.
+  // We need the position so we can overwrite it on the next line.
+  // If nothing is found, findIndex returns -1.
+  const index = productList.findIndex((p) => p.productId == productId);
+
+  // If the product does not exist, tell the front-end with a 404
+  if (index === -1) {
+    return res.status(404).send(`Product ${productId} not found`);
+  }
+
+  // Overwrite the old product at that position with the updated data.
+  // We keep the same productId so the product does not change its identity.
+  productList[index] = {
+    productId: productId,
+    name: name,
+    price: parseFloat(price),
+    description: description,
+    picture: picture,
+  };
+
+  // Send the updated product back to the front-end
+  res.json(productList[index]);
+});
+
+
+// ============================================================
+// STEP 1D — DELETE route: REMOVE a product.
+//
+// "DELETE" is the HTTP verb for removing data.
+// Example URL: DELETE http://localhost:8080/products/delete/839201
+// ============================================================
+app.delete("/products/delete/:id", (req, res) => {
+
+  // Grab the ID from the URL
+  const productId = req.params.id;
+
+  // Find the position of the product in the array
+  const index = productList.findIndex((p) => p.productId == productId);
+
+  // If it does not exist, return a 404
+  if (index === -1) {
+    return res.status(404).send(`Product ${productId} not found`);
+  }
+
+  // splice(index, 1) removes exactly 1 item at that position.
+  // It also returns the removed item(s) as an array, so [0] gets
+  // just the one product we deleted.
+  const deleted = productList.splice(index, 1)[0];
+
+  // Send the deleted product back so the front-end knows what was removed
+  res.json(deleted);
+});
 
 // GET /product/search_cat/:cat
 
