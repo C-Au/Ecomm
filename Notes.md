@@ -57,3 +57,10 @@
 - **No image upload** — `picture` is a plain-text filename string, kept as a text input
 - **No auth guard** — authentication is out of scope for this feature
 - **Styling** follows the existing dark theme across all existing pages
+
+
+-------------------------------------------------------------------
+
+29-Apr-2026
+
+Add a mongo DB database to this project. Look at the previous project for guidance.
