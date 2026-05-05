@@ -12,6 +12,22 @@
 //      when the URL is /manage.
 // ============================================================
 
+// ============================================================
+// App.jsx — The root component and router of the application
+//
+// Every React app has one "root" component that sits at the top
+// of the component tree.  App.jsx is that component here.
+// Its job is to:
+//   1. Render the persistent navbar that appears on every page
+//   2. Use React Router to show the correct page based on the URL
+// ============================================================
+
+// Routes, Route, and Link all come from react-router-dom.
+//   Routes  — a container that looks at the current URL and
+//             renders the first <Route> whose path matches.
+//   Route   — pairs a URL path with a component to show.
+//   Link    — a navigation element that changes the URL without
+//             refreshing the whole page (faster than <a href>).
 import { Routes, Route, Link } from "react-router-dom";
 import Home from "../pages/Home/Home";
 import SingleProductPage from "../pages/SingleProductPage/SingleProductPage";
@@ -25,7 +41,13 @@ import "./App.css";
 
 function App() {
   return (
+    // className="app-wrapper" links to a CSS class in App.css.
+    // In React we use className instead of class because "class"
+    // is a reserved word in JavaScript.
     <div className="app-wrapper">
+
+      {/* The <nav> is the top bar that is always visible.
+          It contains the brand name and the navigation links. */}
       <nav className="navbar">
         <span className="navbar-brand">
           SHOP<span>HAUS</span>
@@ -42,8 +64,15 @@ function App() {
       </nav>
 
       <div className="page-content">
+        {/* <Routes> looks at the current URL and renders the first
+            <Route> whose path matches it.
+
+            path="/"            → show the Home page
+            path="/product/:id" → show a single product; :id is a
+                                  wildcard that becomes available
+                                  inside SingleProductPage via useParams()
+            path="/manage"      → show the admin Manage Products page */}
         <Routes>
-          {/* The existing routes — do not touch these */}
           <Route path="/" element={<Home />} />
           <Route path="/product/:id" element={<SingleProductPage />} />
 
@@ -57,4 +86,5 @@ function App() {
   );
 }
 
+// export default makes App available to main.jsx which imports it.
 export default App;
