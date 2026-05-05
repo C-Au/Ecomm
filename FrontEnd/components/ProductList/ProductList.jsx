@@ -45,7 +45,7 @@ export default function ProductList() {
         return <Link to={`product/${p._id}`}>
           <SingleProduct product={p} />
         </Link>;
-      })*/}}
+      })*/}
       
       <SlideDeck items={
           products.map((p) => {
