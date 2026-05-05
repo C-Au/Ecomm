@@ -42,14 +42,14 @@ export default function ProductList() {
       <h1 className="product-list-title">Our Products</h1>
 
       {/*products.map((p) => {
-        return <Link to={`product/${p.productId}`}>
+        return <Link to={`product/${p._id}`}>
           <SingleProduct product={p} />
         </Link>;
-      })*/}
+      })*/}}
       
       <SlideDeck items={
           products.map((p) => {
-            return <Link to={`product/${p.productId}`}> <SingleProduct product={p} /> </Link>;
+            return <Link to={`product/${p._id}`}> <SingleProduct product={p} /> </Link>;
           })
         } 
       />

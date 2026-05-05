@@ -148,7 +148,7 @@ export default function ManageProducts() {
           //   - otherwise → keep it as is (the "p" stays the same)
           setProducts(
             products.map((p) =>
-              p.productId === editingId ? response.data : p
+              p._id === editingId ? response.data : p
             )
           );
 
@@ -172,7 +172,7 @@ export default function ManageProducts() {
   //      so the user sees what they are editing
   // ----------------------------------------------------------
   function handleEditClick(product) {
-    setEditingId(product.productId);
+    setEditingId(product._id);
     setForm({
       name: product.name,
       price: product.price,
@@ -205,7 +205,7 @@ export default function ManageProducts() {
         // Remove the deleted product from the list.
         // .filter() keeps only items where the condition is TRUE.
         // "keep every product whose ID is NOT the deleted one"
-        setProducts(products.filter((p) => p.productId !== productId));
+        setProducts(products.filter((p) => p._id !== productId));
       })
       .catch((err) => {
         console.error("Could not delete product:", err);
@@ -346,8 +346,8 @@ export default function ManageProducts() {
         </thead>
         <tbody>
           {products.map((p) => (
-            <tr key={p.productId}>
-              <td>{p.productId}</td>
+            <tr key={p._id}>
+              <td>{p._id}</td>
               <td>{p.name}</td>
               <td>${p.price}</td>
               <td>{p.description}</td>
@@ -363,7 +363,7 @@ export default function ManageProducts() {
 
                 {/* Same idea for Delete — we pass just the ID */}
                 <button
-                  onClick={() => handleDelete(p.productId)}
+                  onClick={() => handleDelete(p._id)}
                   style={{ marginLeft: "0.5rem", color: "red" }}
                 >
                   Delete
