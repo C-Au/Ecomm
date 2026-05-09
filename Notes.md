@@ -64,3 +64,11 @@
 29-Apr-2026
 
 Add a mongo DB database to this project. Look at the previous project for guidance.
+
+---------------------------------------------------------------------
+
+09-May-2026
+
+Move all notes outside of code file into a seperate MD file
+
+Debug this file
