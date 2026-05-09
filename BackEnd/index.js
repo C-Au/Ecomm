@@ -157,7 +157,8 @@ app.post("/products/add", async (req, res) => {
     // req.body is the JSON object the front-end sent.
     // Destructuring pulls each named field out into its own variable.
     // This is shorthand for: const name = req.body.name; etc.
-    const { name, price, description, picture } = req.body;
+    const { name, price, description } = req.body;
+    const { picture } = req.file;
 
     // "new Product({...})" creates a new document in memory using
     // the schema we defined in models/Product.js.  It has not been
@@ -170,11 +171,24 @@ app.post("/products/add", async (req, res) => {
     // picture || "placeholder.jpg" means: use the picture value if
     // one was provided; otherwise use "placeholder.jpg" as a fallback.
     // The || is the "OR" operator — it returns the first truthy value.
+
+    // originalname - name
+    // mimetype
+    // size
+    // buffer
+
+    console.log(picture);
+
     const newProduct = new Product({
       name,
       price: parseFloat(price),
       description,
-      picture: picture || "placeholder.jpg",
+      picture: {
+        fileName: picture.name, // origonalName
+        fileType: picture.mimetype,
+        fileSize: picture.size, 
+        fileData: picture.buffer
+      },
     });
 
     // .save() writes the document to the database and returns

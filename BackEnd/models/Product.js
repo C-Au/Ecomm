@@ -33,8 +33,17 @@ const productSchema = new mongoose.Schema({
   name:        { type: String, required: true },
   price:       { type: Number, required: true },
   description: { type: String, required: true },
-  picture:     { type: String, default: 'placeholder.jpg' },
-});
+  picture:     { 
+      fileName: String, 
+      fileType: String,
+      fileSize: Number, 
+      fileData: Buffer,
+      createdAt: { 
+        type: Date, 
+        default: Date.now
+      }
+    }
+  });
 
 // ============================================================
 // THE MODEL

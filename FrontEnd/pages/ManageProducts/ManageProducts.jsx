@@ -52,9 +52,10 @@ export default function ManageProducts() {
   const [form, setForm] = useState({
     name: "",
     price: "",
-    description: "",
-    picture: "",
+    description: ""
   });
+
+  const [picture, setPic] = useState(null);
 
 
   // ----------------------------------------------------------
@@ -96,7 +97,15 @@ export default function ManageProducts() {
   // one field that changed.  The result is a new updated object.
   // ----------------------------------------------------------
   function handleChange(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    console.log(e.target)
+    if (e.target.name === "picture") {
+      console.log("1")
+      setPic(e.target.files[0]);
+    } else {
+      console.log("2")
+
+      setForm({ ...form, [e.target.name]: e.target.value });
+    }
   }
 
 
@@ -114,12 +123,20 @@ export default function ManageProducts() {
     // would disappear.
     e.preventDefault();
 
+    console.log(form)
+
     if (editingId === null) {
       // ---- ADD MODE ----
       // We are NOT editing an existing product, so we POST a new one.
       // axios.post(url, data) sends the form data to the back-end.
       axios
-        .post("http://localhost:8080/products/add", form)
+        .post("http://localhost:8080/products/add", 
+          {...form, picture},
+          {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }            
+          })
         .then((response) => {
           // The server returns the newly created product (with its
           // new ID).  We add it to our products list using the
@@ -128,7 +145,7 @@ export default function ManageProducts() {
           setProducts([...products, response.data]);
 
           // Clear the form fields so it is ready for the next product
-          setForm({ name: "", price: "", description: "", picture: "" });
+          setForm({ name: "", price: "", description: "", picture: null });
         })
         .catch((err) => {
           console.error("Could not add product:", err);
@@ -154,7 +171,7 @@ export default function ManageProducts() {
 
           // Exit edit mode and clear the form
           setEditingId(null);
-          setForm({ name: "", price: "", description: "", picture: "" });
+          setForm({ name: "", price: "", description: "", picture: null });
         })
         .catch((err) => {
           console.error("Could not update product:", err);
@@ -221,7 +238,7 @@ export default function ManageProducts() {
   // ----------------------------------------------------------
   function handleCancel() {
     setEditingId(null);
-    setForm({ name: "", price: "", description: "", picture: "" });
+    setForm({ name: "", price: "", description: "", picture: null });
   }
 
 
@@ -304,9 +321,8 @@ export default function ManageProducts() {
           <label>Image Filename</label><br />
           <input
             name="picture"
-            value={form.picture}
             onChange={handleChange}
-            placeholder="e.g. wireless-mouse.jpg"
+            type="file"
           />
         </div>
 
