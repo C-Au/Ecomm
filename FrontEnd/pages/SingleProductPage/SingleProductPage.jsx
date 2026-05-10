@@ -30,7 +30,7 @@ export default function SingleProductPage() {
   return (
     <div>
       <h1>Product Page</h1>
-      <SingleProduct product={product} />;
+      <SingleProduct product={product} />
       <div></div>
     </div>
   );

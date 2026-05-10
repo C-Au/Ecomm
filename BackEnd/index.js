@@ -158,7 +158,7 @@ app.post("/products/add", async (req, res) => {
     // Destructuring pulls each named field out into its own variable.
     // This is shorthand for: const name = req.body.name; etc.
     const { name, price, description } = req.body;
-    const { picture } = req.file;
+    const picture = req.file;
 
     // "new Product({...})" creates a new document in memory using
     // the schema we defined in models/Product.js.  It has not been
@@ -184,9 +184,9 @@ app.post("/products/add", async (req, res) => {
       price: parseFloat(price),
       description,
       picture: {
-        fileName: picture.name, // origonalName
+        fileName: picture.originalname,
         fileType: picture.mimetype,
-        fileSize: picture.size, 
+        fileSize: picture.size,
         fileData: picture.buffer
       },
     });

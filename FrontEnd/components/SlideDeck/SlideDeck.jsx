@@ -4,6 +4,10 @@ import "./SlideDeck.css";
 function SlideDeck({ items }) {
   const [index, setIndex] = useState(0);
 
+  if (!items || items.length === 0) {
+    return <p>No items to display.</p>;
+  }
+
   const handlePrev = () => {
     if (index > 0) setIndex(index - 1);
   };

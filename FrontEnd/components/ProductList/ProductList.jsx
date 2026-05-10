@@ -39,7 +39,7 @@ export default function ProductList() {
       <h1 className="product-list-title">Our Products</h1>
       <SlideDeck
         items={products.map((p) => (
-          <Link to={`product/${p._id}`}>
+          <Link to={`/product/${p._id}`}>
             <SingleProduct product={p} />
           </Link>
         ))}

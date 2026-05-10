@@ -39,14 +39,18 @@ export default function ManageProducts() {
     console.log(form);
 
     if (editingId === null) {
+      const formData = new FormData();
+      formData.append("name", form.name);
+      formData.append("price", form.price);
+      formData.append("description", form.description);
+      if (picture) formData.append("picture", picture);
+
       axios
-        .post("http://localhost:8080/products/add",
-          { ...form, picture },
-          { headers: { "Content-Type": "multipart/form-data" } }
-        )
+        .post("http://localhost:8080/products/add", formData)
         .then((response) => {
           setProducts([...products, response.data]);
           setForm({ name: "", price: "", description: "", picture: null });
+          setPic(null);
         })
         .catch((err) => {
           console.error("Could not add product:", err);
