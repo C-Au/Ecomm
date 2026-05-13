@@ -24,6 +24,12 @@ app.get("/", (req, res) => {
 app.get("/products", async (req, res) => {
   try {
     const products = await Product.find();
+
+    // convert back to base 64; image
+
+    // src={product.image.file}
+
+    console.log(products);
     res.json(products);
   } catch (err) {
     res.status(500).send("Error fetching products: " + err.message);
