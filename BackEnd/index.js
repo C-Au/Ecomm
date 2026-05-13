@@ -31,6 +31,8 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const Product = require('./models/Product')
 const express = require("express");
+const multer = require("multer");
+const upload = multer({ storage: multer.memoryStorage() });
 const app = express();
 const HTTP_PORT = process.env.PORT || 8080;
 const cors = require("cors");
@@ -152,7 +154,7 @@ app.get("/product/search_id/:id", async (req, res) => {
 // The front-end will call axios.post("http://localhost:8080/products/add", formData)
 // and that form data will land here inside req.body.
 // ============================================================
-app.post("/products/add", async (req, res) => {
+app.post("/products/add", upload.single("picture"), async (req, res) => {
   try {
     // req.body is the JSON object the front-end sent.
     // Destructuring pulls each named field out into its own variable.
@@ -183,12 +185,12 @@ app.post("/products/add", async (req, res) => {
       name,
       price: parseFloat(price),
       description,
-      picture: {
+      picture: picture ? {
         fileName: picture.originalname,
         fileType: picture.mimetype,
         fileSize: picture.size,
         fileData: picture.buffer
-      },
+      } : null,
     });
 
     // .save() writes the document to the database and returns

@@ -33,17 +33,8 @@ const productSchema = new mongoose.Schema({
   name:        { type: String, required: true },
   price:       { type: Number, required: true },
   description: { type: String, required: true },
-  picture:     { 
-      fileName: String, 
-      fileType: String,
-      fileSize: Number, 
-      fileData: Buffer,
-      createdAt: { 
-        type: Date, 
-        default: Date.now
-      }
-    }
-  });
+  picture:     { type: mongoose.Schema.Types.Mixed }
+});
 
 // ============================================================
 // THE MODEL
