@@ -3,7 +3,15 @@ import "./SingleProduct.css";
 function SingleProduct({ product }) {
   return (
     <div className="product-card">
-      <img className="product-card-image" src="" alt={product.name} />
+      <img
+        className="product-card-image"
+        src={
+          product.picture?.data
+            ? `data:${product.picture.filetype};base64,${product.picture.data}`
+            : ""
+        }
+        alt={product.name}
+      />
       <div className="product-card-body">
         <h4 className="product-card-name">{product.name}</h4>
         <p className="product-card-description">{product.description}</p>

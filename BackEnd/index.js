@@ -25,12 +25,8 @@ app.get("/products", async (req, res) => {
   try {
     const products = await Product.find();
 
-    // convert back to base 64; image
-
-    // src={product.image.file}
-
     console.log(products);
-    res.json(products);
+    res.json(products); // picture.data is already base64; use `data:${picture.filetype};base64,${picture.data}` on the frontend
   } catch (err) {
     res.status(500).send("Error fetching products: " + err.message);
   }
@@ -61,10 +57,10 @@ app.post("/products/add", upload.single("picture"), async (req, res) => {
       description,
       picture: picture
         ? {
-            fileName: picture.originalname,
-            fileType: picture.mimetype,
-            fileSize: picture.size,
-            fileData: picture.buffer,
+            filename: picture.originalname,
+            filetype: picture.mimetype,
+            size:     picture.size,
+            data:     picture.buffer.toString("base64"),
           }
         : null,
     });
@@ -76,13 +72,25 @@ app.post("/products/add", upload.single("picture"), async (req, res) => {
   }
 });
 
-app.put("/products/edit/:id", async (req, res) => {
+app.put("/products/edit/:id", upload.single("picture"), async (req, res) => {
   try {
-    const { name, price, description, picture } = req.body;
+    const { name, price, description } = req.body;
+
+    const pictureUpdate = req.file
+      ? {
+          filename: req.file.originalname,
+          filetype: req.file.mimetype,
+          size:     req.file.size,
+          data:     req.file.buffer.toString("base64"),
+        }
+      : undefined;
+
+    const updateFields = { name, price: parseFloat(price), description };
+    if (pictureUpdate) updateFields.picture = pictureUpdate;
 
     const updated = await Product.findByIdAndUpdate(
       req.params.id,
-      { name, price: parseFloat(price), description, picture },
+      updateFields,
       { new: true },
     );
 
