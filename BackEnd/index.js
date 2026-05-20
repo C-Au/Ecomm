@@ -25,6 +25,16 @@ app.get("/products", async (req, res) => {
   try {
     const products = await Product.find();
 
+    products = products.map(p => { 
+      
+      if (p.picture?.data) {
+        p.picture.src = `data:${p.picture.filetype};base64,${p.picture.data}`; 
+      }
+      console.log("p.picture.src: " + p.picture.src[0]);
+      return p;
+    });
+
+
     console.log(products);
     res.json(products); // picture.data is already base64; use `data:${picture.filetype};base64,${picture.data}` on the frontend
   } catch (err) {

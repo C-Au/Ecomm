@@ -1,15 +1,12 @@
 import "./SingleProduct.css";
 
 function SingleProduct({ product }) {
+  console.log(product.picture)
   return (
     <div className="product-card">
       <img
         className="product-card-image"
-        src={
-          product.picture?.data
-            ? `data:${product.picture.filetype};base64,${product.picture.data}`
-            : ""
-        }
+        src={product.picture.src}
         alt={product.name}
       />
       <div className="product-card-body">
