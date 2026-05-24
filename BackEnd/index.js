@@ -23,14 +23,14 @@ app.get("/", (req, res) => {
 
 app.get("/products", async (req, res) => {
   try {
-    const products = await Product.find();
+    let products = await Product.find().lean();
 
     products = products.map(p => { 
       
       if (p.picture?.data) {
         p.picture.src = `data:${p.picture.filetype};base64,${p.picture.data}`; 
+        console.log("p.picture.src: " + p.picture.src[0]);
       }
-      console.log("p.picture.src: " + p.picture.src[0]);
       return p;
     });
 
