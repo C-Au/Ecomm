@@ -47,7 +47,10 @@ A simple sanity check. Visiting `http://localhost:8080/` in the browser shows th
 
 - `async` on the handler means we can use `await` inside.
 - `try / catch` handles errors: `try` runs the DB code; `catch` catches any failure and sends a `500` (Internal Server Error) response.
-- `Product.find()` is a Mongoose method that returns **all** documents in the `products` collection — equivalent to `SELECT * FROM products` in SQL. We `await` it because the result comes back asynchronously.
+- `Product.find().lean()` returns **all** documents as plain JavaScript objects instead of Mongoose document instances. `.lean()` is important here because we add an extra `src` property to each picture object after the query — without `.lean()`, Mongoose would strip any field not defined in the schema before sending the JSON response.
+- `let products` (not `const`) is used because we immediately reassign it via `.map()` to build the `src` data URL for each product's picture.
+- Inside `.map()`, if a product has `picture.data`, a `src` string is built: `` `data:${picture.filetype};base64,${picture.data}` `` — this is the format a browser `<img src>` tag needs to display an image stored as base64.
+- The `console.log` for `picture.src` is placed **inside** the `if (p.picture?.data)` block so it only runs when a picture actually exists, preventing a crash on products with no picture.
 - `res.json(products)` converts the array to JSON and sends it back to the requester (e.g. React's axios).
 
 ---
@@ -107,3 +110,17 @@ A simple sanity check. Visiting `http://localhost:8080/` in the browser shows th
 1. Type `node index.js` (or `npm test` to use nodemon)
 2. Visit `http://localhost:8080/products` in your browser
 3. Check your terminal — you'll see the products array printed there
+
+---
+
+## Changelog
+
+### May 23, 2026
+
+Three bugs fixed in `GET /products`:
+
+| # | What was wrong | Fix |
+|---|---|---|
+| 1 | `const products` could not be reassigned by `.map()` — crashed every request with `TypeError: Assignment to constant variable` | Changed to `let products` |
+| 2 | `Product.find()` returned Mongoose documents which strip non-schema fields on serialization — the `src` property was silently removed before the response was sent, so the frontend `<img>` had no `src` | Added `.lean()` so plain JS objects are returned and `src` survives `res.json()` |
+| 3 | `console.log(p.picture.src[0])` ran outside the `if (p.picture?.data)` block — crashed on any product with no picture | Moved inside the `if` block |
