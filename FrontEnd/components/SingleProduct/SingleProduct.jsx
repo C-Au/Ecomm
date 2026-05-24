@@ -1,7 +1,7 @@
 import "./SingleProduct.css";
 
 function SingleProduct({ product }) {
-  console.log(product.picture)
+  console.log(product.picture);
   return (
     <div className="product-card">
       <img

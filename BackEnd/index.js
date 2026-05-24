@@ -25,15 +25,13 @@ app.get("/products", async (req, res) => {
   try {
     let products = await Product.find().lean();
 
-    products = products.map(p => { 
-      
+    products = products.map((p) => {
       if (p.picture?.data) {
-        p.picture.src = `data:${p.picture.filetype};base64,${p.picture.data}`; 
+        p.picture.src = `data:${p.picture.filetype};base64,${p.picture.data}`;
         console.log("p.picture.src: " + p.picture.src[0]);
       }
       return p;
     });
-
 
     console.log(products);
     res.json(products); // picture.data is already base64; use `data:${picture.filetype};base64,${picture.data}` on the frontend
@@ -69,8 +67,8 @@ app.post("/products/add", upload.single("picture"), async (req, res) => {
         ? {
             filename: picture.originalname,
             filetype: picture.mimetype,
-            size:     picture.size,
-            data:     picture.buffer.toString("base64"),
+            size: picture.size,
+            data: picture.buffer.toString("base64"),
           }
         : null,
     });
@@ -90,8 +88,8 @@ app.put("/products/edit/:id", upload.single("picture"), async (req, res) => {
       ? {
           filename: req.file.originalname,
           filetype: req.file.mimetype,
-          size:     req.file.size,
-          data:     req.file.buffer.toString("base64"),
+          size: req.file.size,
+          data: req.file.buffer.toString("base64"),
         }
       : undefined;
 

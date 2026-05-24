@@ -7,8 +7,8 @@ const productSchema = new mongoose.Schema({
   picture: {
     filename: { type: String },
     filetype: { type: String },
-    size:     { type: Number },
-    data:     { type: String }, // base64-encoded image
+    size: { type: Number },
+    data: { type: String }, // base64-encoded image
   },
 });
 

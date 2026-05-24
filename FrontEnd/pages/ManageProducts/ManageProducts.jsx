@@ -8,7 +8,7 @@ export default function ManageProducts() {
   const [form, setForm] = useState({
     name: "",
     price: "",
-    description: ""
+    description: "",
   });
   const [picture, setPic] = useState(null);
 
@@ -59,7 +59,9 @@ export default function ManageProducts() {
       axios
         .put(`http://localhost:8080/products/edit/${editingId}`, form)
         .then((response) => {
-          setProducts(products.map((p) => p._id === editingId ? response.data : p));
+          setProducts(
+            products.map((p) => (p._id === editingId ? response.data : p)),
+          );
           setEditingId(null);
           setForm({ name: "", price: "", description: "", picture: null });
         })
@@ -80,7 +82,8 @@ export default function ManageProducts() {
   }
 
   function handleDelete(productId) {
-    if (!window.confirm("Are you sure you want to delete this product?")) return;
+    if (!window.confirm("Are you sure you want to delete this product?"))
+      return;
     axios
       .delete(`http://localhost:8080/products/delete/${productId}`)
       .then(() => {
@@ -108,7 +111,8 @@ export default function ManageProducts() {
         <h2>{editingId ? "✏️ Edit Product" : "➕ Add New Product"}</h2>
 
         <div>
-          <label>Product Name</label><br />
+          <label>Product Name</label>
+          <br />
           <input
             name="name"
             value={form.name}
@@ -119,7 +123,8 @@ export default function ManageProducts() {
         </div>
 
         <div>
-          <label>Price</label><br />
+          <label>Price</label>
+          <br />
           <input
             name="price"
             value={form.price}
@@ -130,7 +135,8 @@ export default function ManageProducts() {
         </div>
 
         <div>
-          <label>Description</label><br />
+          <label>Description</label>
+          <br />
           <input
             name="description"
             value={form.description}
@@ -141,12 +147,9 @@ export default function ManageProducts() {
         </div>
 
         <div>
-          <label>Image Filename</label><br />
-          <input
-            name="picture"
-            onChange={handleChange}
-            type="file"
-          />
+          <label>Image Filename</label>
+          <br />
+          <input name="picture" onChange={handleChange} type="file" />
         </div>
 
         <button type="submit">
@@ -154,13 +157,21 @@ export default function ManageProducts() {
         </button>
 
         {editingId && (
-          <button type="button" onClick={handleCancel} style={{ marginLeft: "1rem" }}>
+          <button
+            type="button"
+            onClick={handleCancel}
+            style={{ marginLeft: "1rem" }}
+          >
             Cancel
           </button>
         )}
       </form>
 
-      <table border="1" cellPadding="8" style={{ width: "100%", borderCollapse: "collapse" }}>
+      <table
+        border="1"
+        cellPadding="8"
+        style={{ width: "100%", borderCollapse: "collapse" }}
+      >
         <thead>
           <tr>
             <th>ID</th>
