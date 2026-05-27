@@ -6,7 +6,7 @@ function SingleProduct({ product }) {
     <div className="product-card">
       <img
         className="product-card-image"
-        src={product.picture.src}
+        src={product.picture?.src ?? "/placeholder.png"}
         alt={product.name}
       />
       <div className="product-card-body">
