@@ -59,6 +59,10 @@ app.post("/products/add", upload.single("picture"), async (req, res) => {
 
     console.log(picture);
 
+    if (!name || !description || isNaN(parseFloat(price))) {
+      return res.status(400).json({ error: "Invalid product fields" });
+    }
+
     const newProduct = new Product({
       name,
       price: parseFloat(price),
