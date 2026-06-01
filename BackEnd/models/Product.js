@@ -9,6 +9,7 @@ const productSchema = new mongoose.Schema({
     filetype: { type: String },
     size: { type: Number },
     data: { type: String }, // base64-encoded image
+    src: {type: String}
   },
 });
 

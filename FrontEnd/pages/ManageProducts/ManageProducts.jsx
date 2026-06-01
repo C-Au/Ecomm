@@ -38,13 +38,15 @@ export default function ManageProducts() {
     e.preventDefault();
     console.log(form);
 
-    if (editingId === null) {
-      const formData = new FormData();
-      formData.append("name", form.name);
-      formData.append("price", form.price);
-      formData.append("description", form.description);
-      if (picture) formData.append("picture", picture);
+    const formData = new FormData();
+    formData.append("name", form.name);
+    formData.append("price", form.price);
+    formData.append("description", form.description);
+    if (picture) {
+      formData.append("picture", picture);
+    }
 
+    if (editingId === null) {
       axios
         .post("http://localhost:8080/products/add", formData)
         .then((response) => {
@@ -57,7 +59,7 @@ export default function ManageProducts() {
         });
     } else {
       axios
-        .put(`http://localhost:8080/products/edit/${editingId}`, form)
+        .put(`http://localhost:8080/products/edit/${editingId}`, formData)
         .then((response) => {
           setProducts(
             products.map((p) => (p._id === editingId ? response.data : p)),

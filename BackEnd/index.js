@@ -23,17 +23,17 @@ app.get("/", (req, res) => {
 
 app.get("/products", async (req, res) => {
   try {
-    let products = await Product.find().lean();
+    // fetch data
+    let products = await Product.find();
 
+    // format data / validate
     products = products.map((p) => {
       if (p.picture?.data) {
         p.picture.src = `data:${p.picture.filetype};base64,${p.picture.data}`;
-        console.log("p.picture.src: " + p.picture.src[0]);
       }
       return p;
     });
 
-    console.log(products);
     res.json(products); // picture.data is already base64; use `data:${picture.filetype};base64,${picture.data}` on the frontend
   } catch (err) {
     res.status(500).send("Error fetching products: " + err.message);
@@ -42,10 +42,20 @@ app.get("/products", async (req, res) => {
 
 app.get("/product/search_id/:id", async (req, res) => {
   try {
+    // fetch
     const product = await Product.findById(req.params.id);
+
+    // validation but no formatting
     if (!product) {
       return res.status(404).send(`Product ${req.params.id} cannot be found!`);
     }
+
+    if (product?.picture?.data && product?.picture?.filetype) {
+     product.picture.src = `data:${product.picture.filetype};base64,${product.picture.data}`
+    }
+    
+    // return data
+    console.log(product)
     res.json(product);
   } catch (err) {
     res.status(500).send("Error fetching product: " + err.message);
@@ -93,9 +103,9 @@ app.put("/products/edit/:id", upload.single("picture"), async (req, res) => {
           filename: req.file.originalname,
           filetype: req.file.mimetype,
           size: req.file.size,
-          data: req.file.buffer.toString("base64"),
+          data: req.file.buffer.toString("base64")
         }
-      : undefined;
+      : null;
 
     const updateFields = { name, price: parseFloat(price), description };
     if (pictureUpdate) updateFields.picture = pictureUpdate;
