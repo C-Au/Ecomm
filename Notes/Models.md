@@ -31,9 +31,17 @@ MongoDB automatically adds:
 | `name` | `String` | Yes | Product name |
 | `price` | `Number` | Yes | Product price |
 | `description` | `String` | Yes | Product description |
-| `picture` | `Mixed` | No | Accepts any value — either a plain string (legacy) or an object with `{ fileName, fileType, fileSize, fileData }` |
+| `picture` | Object | No | A nested object with five sub-fields (see below). The whole field is optional — products can exist without a picture. |
 
-`mongoose.Schema.Types.Mixed` is used for `picture` so that Mongoose does not try to cast the value into a specific shape. This allows the field to hold both old string values and new file-object values stored in the database.
+### `picture` Sub-fields
+
+| Sub-field | Type | Notes |
+|---|---|---|
+| `filename` | `String` | Original name of the uploaded file |
+| `filetype` | `String` | MIME type of the file (e.g. `image/jpeg`) |
+| `size` | `Number` | File size in bytes |
+| `data` | `String` | The image stored as a base64-encoded string |
+| `src` | `String` | A ready-to-use data URL built from `filetype` and `data` (e.g. `` `data:image/jpeg;base64,...` ``). Added by the server before sending to the front-end so `<img src>` can display it directly. |
 
 ---
 
