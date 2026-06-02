@@ -47,10 +47,9 @@ A simple sanity check. Visiting `http://localhost:8080/` in the browser shows th
 
 - `async` on the handler means we can use `await` inside.
 - `try / catch` handles errors: `try` runs the DB code; `catch` catches any failure and sends a `500` (Internal Server Error) response.
-- `Product.find().lean()` returns **all** documents as plain JavaScript objects instead of Mongoose document instances. `.lean()` is important here because we add an extra `src` property to each picture object after the query — without `.lean()`, Mongoose would strip any field not defined in the schema before sending the JSON response.
+- `Product.find()` returns **all** documents as Mongoose document instances.
 - `let products` (not `const`) is used because we immediately reassign it via `.map()` to build the `src` data URL for each product's picture.
 - Inside `.map()`, if a product has `picture.data`, a `src` string is built: `` `data:${picture.filetype};base64,${picture.data}` `` — this is the format a browser `<img src>` tag needs to display an image stored as base64.
-- The `console.log` for `picture.src` is placed **inside** the `if (p.picture?.data)` block so it only runs when a picture actually exists, preventing a crash on products with no picture.
 - `res.json(products)` converts the array to JSON and sends it back to the requester (e.g. React's axios).
 
 ---
@@ -60,6 +59,8 @@ A simple sanity check. Visiting `http://localhost:8080/` in the browser shows th
 - `:id` is a URL parameter — a placeholder the front-end fills in. Express makes it available as `req.params.id`.
 - `Product.findById(id)` searches MongoDB for a document whose `_id` matches. Returns `null` if nothing is found.
 - `if (!product)` — the `!` means "if NOT" — runs when the product is `null`. Returns a `404` ("Not Found").
+- After the null check, if the product has both `picture.data` and `picture.filetype`, a `src` string is built the same way as in `GET /products` so the front-end can display the image.
+- `console.log(product)` prints the full product to the terminal before sending, useful for debugging.
 
 ---
 
@@ -84,6 +85,9 @@ A simple sanity check. Visiting `http://localhost:8080/` in the browser shows th
 
 - `PUT` is the HTTP verb for replacing/updating existing data.
 - Example URL: `PUT http://localhost:8080/products/edit/839201`
+- `upload.single("picture")` is included as middleware so the route can optionally accept a new image file, the same way `POST /products/add` does. If no file is uploaded, `req.file` is `undefined`.
+- `pictureUpdate` is built from `req.file` only if a file was actually uploaded; otherwise it is `null`.
+- `updateFields` starts with the text fields (`name`, `price`, `description`). The picture is added to `updateFields` only if `pictureUpdate` is not `null` — this way a product's existing picture is left untouched when no new file is sent.
 - `findByIdAndUpdate()` is a Mongoose shortcut that:
   1. Finds the document whose `_id` matches `req.params.id`
   2. Applies the new field values
@@ -122,5 +126,12 @@ Three bugs fixed in `GET /products`:
 | # | What was wrong | Fix |
 |---|---|---|
 | 1 | `const products` could not be reassigned by `.map()` — crashed every request with `TypeError: Assignment to constant variable` | Changed to `let products` |
-| 2 | `Product.find()` returned Mongoose documents which strip non-schema fields on serialization — the `src` property was silently removed before the response was sent, so the frontend `<img>` had no `src` | Added `.lean()` so plain JS objects are returned and `src` survives `res.json()` |
+| 2 | `Product.find()` returned Mongoose documents which strip non-schema fields on serialization — the `src` property was silently removed before the response was sent, so the frontend `<img>` had no `src` | Added `.lean()` so plain JS objects are returned and `src` survives `res.json()` *(later removed — see June 1)* |
 | 3 | `console.log(p.picture.src[0])` ran outside the `if (p.picture?.data)` block — crashed on any product with no picture | Moved inside the `if` block |
+
+### June 1, 2026
+
+- Removed `.lean()` from `GET /products`. The route now returns Mongoose document instances directly. The `src` property added inside `.map()` still works because Mongoose includes it when serialising with `res.json()`.
+- Removed the `console.log` inside `.map()` in `GET /products` — no longer needed.
+- Updated `GET /product/search_id/:id` to also build a picture `src` string before returning, and added a `console.log(product)` for debugging.
+- Updated `PUT /products/edit/:id` to accept an optional picture upload via `upload.single("picture")`. The picture field is only overwritten when a new file is actually sent.
