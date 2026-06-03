@@ -23,6 +23,8 @@ export default function ManageProducts() {
       });
   }, []);
 
+  // polling
+  // Toast lib npm package
   function handleChange(e) {
     console.log(e.target);
     if (e.target.name === "picture") {
@@ -37,6 +39,14 @@ export default function ManageProducts() {
   function handleSubmit(e) {
     e.preventDefault();
     console.log(form);
+
+    // check if the values are valid, if they are not exit teh function
+    if (form.name.trim() == "") {
+      // set the error message
+      return;
+    } else if (form.price && form.price <= 0) {
+      return;
+    }
 
     const formData = new FormData();
     formData.append("name", form.name);
