@@ -11,6 +11,7 @@ export default function ManageProducts() {
     description: "",
   });
   const [picture, setPic] = useState(null);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     axios
@@ -36,17 +37,24 @@ export default function ManageProducts() {
     }
   }
 
+  function validate() {
+    const newErrors = {};
+    if (!form.name.trim()) newErrors.name = "Name is required";
+    if (isNaN(form.price) || form.price <= 0)
+      newErrors.price = "Enter a valid price";
+    if (!form.description.trim())
+      newErrors.description = "Description is required";
+    return newErrors;
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(form);
-
-    // check if the values are valid, if they are not exit teh function
-    if (form.name.trim() == "") {
-      // set the error message
-      return;
-    } else if (form.price && form.price <= 0) {
+    const newErrors = validate();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors); // show errors, stop here
       return;
     }
+    // safe to send to backend now
 
     const formData = new FormData();
     formData.append("name", form.name);
@@ -132,6 +140,7 @@ export default function ManageProducts() {
             placeholder="e.g. Wireless Mouse"
             required
           />
+          {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
         </div>
 
         <div>
@@ -144,6 +153,7 @@ export default function ManageProducts() {
             placeholder="e.g. 19.99"
             required
           />
+          {errors.price && <p style={{ color: "red" }}>{errors.price}</p>}
         </div>
 
         <div>
@@ -156,6 +166,9 @@ export default function ManageProducts() {
             placeholder="e.g. A smooth wireless mouse."
             required
           />
+          {errors.description && (
+            <p style={{ color: "red" }}>{errors.description}</p>
+          )}
         </div>
 
         <div>
