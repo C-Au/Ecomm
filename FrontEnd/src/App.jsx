@@ -3,6 +3,7 @@ import Home from "../pages/Home/Home";
 import SingleProductPage from "../pages/SingleProductPage/SingleProductPage";
 import ManageProducts from "../pages/ManageProducts/ManageProducts";
 import "./App.css";
+import { Toaster } from 'sonner';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/manage" element={<ManageProducts />} />
         </Routes>
       </div>
+      <Toaster position="top-right" />
     </div>
   );
 }

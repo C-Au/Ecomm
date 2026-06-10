@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { toast } from 'sonner';
 
 export default function ManageProducts() {
   const [products, setProducts] = useState([]);
@@ -71,9 +72,11 @@ export default function ManageProducts() {
           setProducts([...products, response.data]);
           setForm({ name: "", price: "", description: "", picture: null });
           setPic(null);
+          toast.success('Product added!')
         })
         .catch((err) => {
           console.error("Could not add product:", err);
+          toast.error('Could not add product')
         });
     } else {
       axios
