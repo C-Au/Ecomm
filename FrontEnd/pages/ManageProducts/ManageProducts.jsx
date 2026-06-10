@@ -73,6 +73,7 @@ export default function ManageProducts() {
           setForm({ name: "", price: "", description: "", picture: null });
           setPic(null);
           toast.success('Product added!')
+          // closeButton
         })
         .catch((err) => {
           console.error("Could not add product:", err);

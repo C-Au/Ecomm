@@ -4,4 +4,4 @@ Skool zoom call with Joseph - 03/June/2026
 
 2) Shopping cart
 
-3) Toast notifications
+3) Toast notifications 
