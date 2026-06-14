@@ -48,6 +48,54 @@ a {
   color: #ffffff;
 }
 
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.navbar-link {
+  color: #a0aec0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.navbar-link:hover {
+  color: #e2e8f0;
+}
+
+.navbar-cart-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  transition: transform 0.15s ease;
+}
+
+.navbar-cart-link:hover {
+  transform: scale(1.12);
+}
+
+.navbar-cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background-color: #e94560;
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  line-height: 1;
+}
+
 /* ── Page Content ──────────────────────────────────── */
 .page-content {
   flex: 1;

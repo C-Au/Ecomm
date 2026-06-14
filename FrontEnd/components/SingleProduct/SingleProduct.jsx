@@ -1,6 +1,8 @@
+import { useCart } from "../../src/CartContext";
 import "./SingleProduct.css";
 
 function SingleProduct({ product }) {
+  const { addToCart } = useCart();
   console.log(product.picture);
   return (
     <div className="product-card">
@@ -13,6 +15,16 @@ function SingleProduct({ product }) {
         <h4 className="product-card-name">{product.name}</h4>
         <p className="product-card-description">{product.description}</p>
         <span className="product-card-price">${product.price}</span>
+        <button
+          className="product-card-add-btn"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            addToCart(product);
+          }}
+        >
+          Add to Cart
+        </button>
       </div>
     </div>
   );

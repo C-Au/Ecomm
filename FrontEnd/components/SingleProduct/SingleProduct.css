@@ -50,3 +50,24 @@
   padding: 0.2rem 0.7rem;
   border-radius: 20px;
 }
+
+.product-card-add-btn {
+  display: block;
+  width: 100%;
+  margin-top: 0.85rem;
+  background-color: #e94560;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.product-card-add-btn:hover {
+  background-color: #c73652;
+  transform: translateY(-2px);
+}
