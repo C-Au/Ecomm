@@ -1,0 +1,318 @@
+/* ── Manage Products Page ───────────────────────────────────── */
+
+.manage-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* ── Back Button ────────────────────────────────────────────── */
+.manage-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #1e2d4a;
+  color: #e2e8f0;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.manage-back-btn:hover {
+  background-color: #e94560;
+  transform: translateX(-3px);
+}
+
+/* ── Page Title ─────────────────────────────────────────────── */
+.manage-page-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #e2e8f0;
+  letter-spacing: 1px;
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: block;
+}
+
+.manage-page-title::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 4px;
+  background-color: #e94560;
+  border-radius: 2px;
+  margin-top: 0.5rem;
+}
+
+/* ── Form Card ──────────────────────────────────────────────── */
+.manage-form-card {
+  background: #141b2d;
+  border-radius: 14px;
+  padding: 2rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.5);
+}
+
+.manage-form-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #1e2d4a;
+}
+
+/* ── Form Grid ──────────────────────────────────────────────── */
+.manage-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.manage-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.manage-form-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.manage-form-field label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #8a9ab0;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.manage-form-field input {
+  background-color: #0e1422;
+  border: 1.5px solid #1e2d4a;
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  color: #e2e8f0;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.manage-form-field input:focus {
+  border-color: #e94560;
+  box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.18);
+}
+
+.manage-form-field input::placeholder {
+  color: #3a4a60;
+}
+
+/* File input */
+.manage-form-field input[type='file'] {
+  cursor: pointer;
+  padding: 0.5rem 0.6rem;
+  color: #8a9ab0;
+}
+
+.manage-form-field input[type='file']::-webkit-file-upload-button {
+  background-color: #1e2d4a;
+  color: #e2e8f0;
+  border: none;
+  border-radius: 6px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+  margin-right: 0.75rem;
+  transition: background-color 0.2s ease;
+}
+
+.manage-form-field input[type='file']::-webkit-file-upload-button:hover {
+  background-color: #e94560;
+}
+
+/* Validation errors */
+.manage-field-error {
+  font-size: 0.8rem;
+  color: #e94560;
+  margin: 0;
+}
+
+/* ── Form Actions ────────────────────────────────────────────── */
+.manage-form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.manage-btn-submit {
+  background-color: #e94560;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1.6rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.4px;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.manage-btn-submit:hover {
+  background-color: #c73652;
+  transform: translateY(-2px);
+}
+
+.manage-btn-cancel {
+  background-color: #1e2d4a;
+  color: #a0aec0;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.manage-btn-cancel:hover {
+  background-color: #253a5e;
+  color: #e2e8f0;
+}
+
+/* ── Products Table Section ──────────────────────────────────── */
+.manage-table-section {
+  background: #141b2d;
+  border-radius: 14px;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.5);
+}
+
+.manage-table-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin-bottom: 1.25rem;
+}
+
+.manage-table-wrapper {
+  overflow-x: auto;
+}
+
+.manage-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.manage-table thead tr {
+  border-bottom: 2px solid #1e2d4a;
+}
+
+.manage-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #8a9ab0;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  white-space: nowrap;
+}
+
+.manage-table td {
+  padding: 0.9rem 1rem;
+  color: #ccd6e8;
+  border-bottom: 1px solid #1a2336;
+  vertical-align: middle;
+}
+
+.manage-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.manage-table tbody tr:hover {
+  background-color: #192036;
+}
+
+.manage-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.manage-table .col-id {
+  font-family: monospace;
+  font-size: 0.78rem;
+  color: #4a5a78;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.manage-table .col-price {
+  color: #e94560;
+  font-weight: 700;
+}
+
+.manage-table .col-description {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #8a9ab0;
+}
+
+/* ── Row Action Buttons ─────────────────────────────────────── */
+.manage-table .col-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.manage-btn-edit {
+  background-color: #1e2d4a;
+  color: #7eb8f7;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.manage-btn-edit:hover {
+  background-color: #2a3f66;
+  color: #ffffff;
+}
+
+.manage-btn-delete {
+  background-color: rgba(233, 69, 96, 0.12);
+  color: #e94560;
+  border: 1px solid rgba(233, 69, 96, 0.3);
+  border-radius: 6px;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.manage-btn-delete:hover {
+  background-color: #e94560;
+  color: #ffffff;
+  border-color: #e94560;
+}
+
+/* ── Empty State ────────────────────────────────────────────── */
+.manage-empty {
+  text-align: center;
+  color: #4a5a78;
+  padding: 2.5rem;
+  font-size: 0.95rem;
+}

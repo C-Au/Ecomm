@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import SingleProduct from "../../components/SingleProduct/SingleProduct";
+import "./SingleProductPage.css";
 
 export default function SingleProductPage() {
   const { id } = useParams();
@@ -25,15 +26,18 @@ export default function SingleProductPage() {
       });
   }, [id]);
 
-  if (loading) return <p>Loading product {id}…</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (loading) return <p className="spp-loading">Loading product {id}…</p>;
+  if (error) return <p className="spp-error">{error}</p>;
 
   return (
-    <div>
-      <button onClick={() => navigate("/")}>← Back to Home</button>
-      <h1>Product Page</h1>
-      <SingleProduct product={product} />
-      <div></div>
+    <div className="spp-container">
+      <h1 className="spp-page-title">Product Page</h1>
+
+      <button className="spp-back-btn" onClick={() => navigate("/")}>← Back to Home</button>
+
+      <div className="spp-card-wrapper">
+        <SingleProduct product={product} />
+      </div>
     </div>
   );
 }

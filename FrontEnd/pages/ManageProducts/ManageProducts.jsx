@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from 'sonner';
+import "./ManageProducts.css";
 
 export default function ManageProducts() {
   const [products, setProducts] = useState([]);
@@ -124,112 +125,115 @@ export default function ManageProducts() {
   }
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <Link to="/" style={{ textDecoration: "none" }}>
-        <button style={{ marginBottom: "1rem" }}>← Back to Home</button>
+    <div className="manage-container">
+      <h1 className="manage-page-title">Manage Products</h1>
+
+      <Link to="/">
+        <button className="manage-back-btn">← Back to Home</button>
       </Link>
 
-      <h1>Manage Products</h1>
+      <div className="manage-form-card">
+        <form onSubmit={handleSubmit}>
+          <h2 className="manage-form-title">
+            {editingId ? "✏️ Edit Product" : "➕ Add New Product"}
+          </h2>
 
-      <form onSubmit={handleSubmit} style={{ marginBottom: "2rem" }}>
-        <h2>{editingId ? "✏️ Edit Product" : "➕ Add New Product"}</h2>
+          <div className="manage-form-grid">
+            <div className="manage-form-field">
+              <label>Product Name</label>
+              <input
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder="e.g. Wireless Mouse"
+                required
+              />
+              {errors.name && <p className="manage-field-error">{errors.name}</p>}
+            </div>
 
-        <div>
-          <label>Product Name</label>
-          <br />
-          <input
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            placeholder="e.g. Wireless Mouse"
-            required
-          />
-          {errors.name && <p style={{ color: "red" }}>{errors.name}</p>}
+            <div className="manage-form-field">
+              <label>Price</label>
+              <input
+                name="price"
+                value={form.price}
+                onChange={handleChange}
+                placeholder="e.g. 19.99"
+                required
+              />
+              {errors.price && <p className="manage-field-error">{errors.price}</p>}
+            </div>
+
+            <div className="manage-form-field full-width">
+              <label>Description</label>
+              <input
+                name="description"
+                value={form.description}
+                onChange={handleChange}
+                placeholder="e.g. A smooth wireless mouse."
+                required
+              />
+              {errors.description && (
+                <p className="manage-field-error">{errors.description}</p>
+              )}
+            </div>
+
+            <div className="manage-form-field full-width">
+              <label>Product Image</label>
+              <input name="picture" onChange={handleChange} type="file" />
+            </div>
+          </div>
+
+          <div className="manage-form-actions">
+            <button type="submit" className="manage-btn-submit">
+              {editingId ? "Save Changes" : "Add Product"}
+            </button>
+            {editingId && (
+              <button type="button" className="manage-btn-cancel" onClick={handleCancel}>
+                Cancel
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
+
+      <div className="manage-table-section">
+        <h2 className="manage-table-title">All Products</h2>
+        <div className="manage-table-wrapper">
+          <table className="manage-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.length === 0 ? (
+                <tr>
+                  <td colSpan="5" className="manage-empty">No products yet.</td>
+                </tr>
+              ) : (
+                products.map((p) => (
+                  <tr key={p._id}>
+                    <td className="col-id">{p._id}</td>
+                    <td>{p.name}</td>
+                    <td className="col-price">${p.price}</td>
+                    <td className="col-description">{p.description}</td>
+                    <td>
+                      <div className="col-actions">
+                        <button className="manage-btn-edit" onClick={() => handleEditClick(p)}>Edit</button>
+                        <button className="manage-btn-delete" onClick={() => handleDelete(p._id)}>Delete</button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
-
-        <div>
-          <label>Price</label>
-          <br />
-          <input
-            name="price"
-            value={form.price}
-            onChange={handleChange}
-            placeholder="e.g. 19.99"
-            required
-          />
-          {errors.price && <p style={{ color: "red" }}>{errors.price}</p>}
-        </div>
-
-        <div>
-          <label>Description</label>
-          <br />
-          <input
-            name="description"
-            value={form.description}
-            onChange={handleChange}
-            placeholder="e.g. A smooth wireless mouse."
-            required
-          />
-          {errors.description && (
-            <p style={{ color: "red" }}>{errors.description}</p>
-          )}
-        </div>
-
-        <div>
-          <label>Image Filename</label>
-          <br />
-          <input name="picture" onChange={handleChange} type="file" />
-        </div>
-
-        <button type="submit">
-          {editingId ? "Save Changes" : "Add Product"}
-        </button>
-
-        {editingId && (
-          <button
-            type="button"
-            onClick={handleCancel}
-            style={{ marginLeft: "1rem" }}
-          >
-            Cancel
-          </button>
-        )}
-      </form>
-
-      <table
-        border="1"
-        cellPadding="8"
-        style={{ width: "100%", borderCollapse: "collapse" }}
-      >
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((p) => (
-            <tr key={p._id}>
-              <td>{p._id}</td>
-              <td>{p.name}</td>
-              <td>${p.price}</td>
-              <td>{p.description}</td>
-              <td>
-                <button onClick={() => handleEditClick(p)}>Edit</button>
-                <button
-                  onClick={() => handleDelete(p._id)}
-                  style={{ marginLeft: "0.5rem", color: "red" }}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      </div>
     </div>
   );
 }

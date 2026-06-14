@@ -56,3 +56,46 @@ Exits EDIT mode and clears the form (resets `editingId` to `null`).
 - `() => handleEditClick(p)` — arrow function wrapper delays the call until the button is clicked. Without it, the function would fire immediately when the page loads.
 - `() => handleDelete(p._id)` — same pattern for Delete.
 - Table uses `key={p._id}` — required by React for lists so it can track which items changed.
+
+---
+
+## CSS / Styling Notes
+
+Styles live in `ManageProducts.css` (same folder, imported at the top of the JSX file).
+
+### Layout
+- `.manage-container` — max-width 1100px, centred with auto margins, `2rem` padding.
+- The form and the table each sit inside their own dark card (`.manage-form-card` / `.manage-table-section`) with `background: #141b2d`, `border-radius: 14px`, and a `box-shadow`.
+
+### Form
+- `.manage-form-grid` — CSS Grid, two columns. Name and Price share one row; Description and the file input each span the full width via `.full-width`.
+- Labels use small uppercase muted text (`#8a9ab0`, `0.82rem`).
+- Inputs have a `#0e1422` dark background; border glows `#e94560` on `:focus`.
+- Submit button is solid `#e94560`; Cancel button is the neutral dark-blue used elsewhere in the project.
+
+### Table
+- No raw HTML `border` attribute — styled entirely via CSS.
+- Column notes:
+  - `.col-id` — monospace, truncated with `text-overflow: ellipsis`.
+  - `.col-price` — accent red `#e94560`, bold.
+  - `.col-description` — truncated, muted colour.
+  - `.col-actions` — flex row containing Edit and Delete buttons.
+- Row hover highlights with `background-color: #192036`.
+- Empty state: a single full-width cell with class `.manage-empty` showing "No products yet."
+
+### Buttons
+| Class | Style |
+|---|---|
+| `.manage-back-btn` | Dark blue, slides left on hover |
+| `.manage-btn-submit` | Solid red `#e94560` |
+| `.manage-btn-cancel` | Neutral dark blue |
+| `.manage-btn-edit` | Quiet blue, text turns white on hover |
+| `.manage-btn-delete` | Ghost red (transparent bg), fills solid on hover |
+
+---
+
+## Changelog
+
+| Date | Change |
+|---|---|
+| 13-Jun-2026 | Added `ManageProducts.css`. Replaced all inline styles with CSS classes. Form converted to two-column grid layout. Table restyled (no border attribute, hover rows, truncated columns). Added empty-state row. Added `errors` state and `validate()` for client-side form validation. |

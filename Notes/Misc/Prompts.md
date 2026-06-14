@@ -1,0 +1,1 @@
+"Read through the markdown files and then read my code base to get a feel of the style of coding used in this project."
