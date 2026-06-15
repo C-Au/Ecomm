@@ -1,7 +1,9 @@
 # Cart Feature — Notes
 
-Covers two files that work together:
-- `FrontEnd/src/CartContext.jsx` — global state and logic
+Covers four files that work together:
+- `FrontEnd/src/CartContext.js` — the context object
+- `FrontEnd/src/CartContext.jsx` — global state and logic (`CartProvider`)
+- `FrontEnd/src/useCart.js` — `useCart` hook
 - `FrontEnd/pages/Cart/Cart.jsx` + `Cart.css` — the `/cart` page
 
 ---
@@ -9,6 +11,17 @@ Covers two files that work together:
 ## Overview
 
 The shopping cart is built with **React Context** so any component in the tree can read or update the cart without prop drilling. The cart state is persisted to `localStorage` so it survives page refreshes.
+
+---
+
+## CartContext.js
+
+### Purpose
+Holds only the raw context object created by `createContext()`. Kept in its own file so Vite's Fast Refresh rules are satisfied — a file may not mix a context object export with a component export.
+
+```js
+export const CartContext = createContext();
+```
 
 ---
 
@@ -49,7 +62,13 @@ Filters out the item whose `product._id` matches — removes it entirely regardl
 - Key used: `"shophaus-cart"`.
 
 ### `useCart()` hook
-A thin wrapper around `useContext(CartContext)`. Import and call this in any component that needs cart access.
+Moved to its own file (`src/useCart.js`) to satisfy Vite Fast Refresh — hooks are not components and cannot share a file with one. Import from `useCart.js`:
+
+```js
+import { useCart } from "../../src/useCart";
+```
+
+Calls `useContext(CartContext)` and returns the full context value.
 
 ```js
 const { cart, addToCart, cartCount, cartTotal } = useCart();
@@ -91,7 +110,9 @@ Styles live in `Cart.css` (same folder). Pattern is identical to `ManageProducts
 
 | File | Role |
 |---|---|
-| `src/CartContext.jsx` | **NEW** — context, state, functions |
+| `src/CartContext.js` | **NEW** — context object only (split out for Fast Refresh) |
+| `src/CartContext.jsx` | **NEW** — `CartProvider` component, state, functions |
+| `src/useCart.js` | **NEW** — `useCart` hook (split out for Fast Refresh) |
 | `pages/Cart/Cart.jsx` | **NEW** — cart page |
 | `pages/Cart/Cart.css` | **NEW** — cart page styles |
 | `src/App.jsx` | Wrapped in `<CartProvider>`, added `/cart` route, added navbar cart icon |
@@ -106,3 +127,4 @@ Styles live in `Cart.css` (same folder). Pattern is identical to `ManageProducts
 | Date | Change |
 |---|---|
 | 13-Jun-2026 | Feature built. Created CartContext with localStorage persistence. Created Cart page and CSS. Added Add to Cart button to SingleProduct. Added cart icon with red count badge to navbar. |
+| 14-Jun-2026 | Fixed Vite Fast Refresh error. Split `CartContext.jsx` into three files: `CartContext.js` (context object), `CartContext.jsx` (`CartProvider` component only), and `useCart.js` (`useCart` hook). Updated imports in `App.jsx`, `Cart.jsx`, and `SingleProduct.jsx`. |

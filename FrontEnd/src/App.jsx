@@ -3,7 +3,8 @@ import Home from "../pages/Home/Home";
 import SingleProductPage from "../pages/SingleProductPage/SingleProductPage";
 import ManageProducts from "../pages/ManageProducts/ManageProducts";
 import Cart from "../pages/Cart/Cart";
-import { CartProvider, useCart } from "./CartContext";
+import { CartProvider } from "./CartContext";
+import { useCart } from "./useCart";
 import "./App.css";
 import { Toaster } from 'sonner';
 
