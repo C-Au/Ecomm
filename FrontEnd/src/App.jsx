@@ -3,6 +3,7 @@ import Home from "../pages/Home/Home";
 import SingleProductPage from "../pages/SingleProductPage/SingleProductPage";
 import ManageProducts from "../pages/ManageProducts/ManageProducts";
 import Cart from "../pages/Cart/Cart";
+import Checkout from "../pages/Checkout/Checkout";
 import { CartProvider } from "./CartContext";
 import { useCart } from "./useCart";
 import "./App.css";
@@ -25,9 +26,11 @@ function App() {
     <CartProvider>
       <div className="app-wrapper">
         <nav className="navbar">
-          <span className="navbar-brand">
-            SHOP<span>HAUS</span>
-          </span>
+          <Link to="/" className="navbar-brand-link">
+            <span className="navbar-brand">
+              SHOP<span>HAUS</span>
+            </span>
+          </Link>
           <div className="navbar-links">
             <Link to="/manage" className="navbar-link">
               Manage Products
@@ -42,6 +45,7 @@ function App() {
             <Route path="/product/:id" element={<SingleProductPage />} />
             <Route path="/manage" element={<ManageProducts />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Routes>
         </div>
         <Toaster position="top-right" />

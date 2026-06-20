@@ -1,6 +1,7 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const Product = require("./models/Product");
+const Order = require("./models/Order");
 const express = require("express");
 const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage() });
@@ -136,6 +137,24 @@ app.delete("/products/delete/:id", async (req, res) => {
     res.json(deleted);
   } catch (err) {
     res.status(500).send("Error deleting product: " + err.message);
+  }
+});
+
+// ── Orders ───────────────────────────────────────────────────
+
+app.post("/orders", async (req, res) => {
+  try {
+    const { name, email, items, total } = req.body;
+
+    if (!name || !email || !Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ error: "Missing required order fields" });
+    }
+
+    const newOrder = new Order({ name, email, items, total });
+    const saved = await newOrder.save();
+    res.status(201).json(saved);
+  } catch (err) {
+    res.status(500).send("Error placing order: " + err.message);
   }
 });
 

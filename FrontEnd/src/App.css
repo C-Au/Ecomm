@@ -36,6 +36,10 @@ a {
   z-index: 100;
 }
 
+.navbar-brand-link {
+  text-decoration: none;
+}
+
 .navbar-brand {
   font-size: 1.6rem;
   font-weight: 800;

@@ -222,3 +222,28 @@
   font-weight: 800;
   color: #e94560;
 }
+
+/* ── Checkout row ───────────────────────────────────────────── */
+.cart-checkout-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.cart-btn-checkout {
+  background-color: #e94560;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.4px;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.cart-btn-checkout:hover {
+  background-color: #c73652;
+  transform: translateY(-2px);
+}
