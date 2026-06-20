@@ -14,8 +14,9 @@ The "Seller Admin" page. Has two parts:
 |---|---|---|
 | `products` | `[]` | All products loaded from the back-end. |
 | `editingId` | `null` | `null` = ADD mode; any ID string = EDIT mode for that product. |
-| `form` | `{ name, price, description }` | Mirrors the input fields. Each starts as `""`. |
+| `form` | `{ name, price, description }` | Mirrors the text input fields. Each starts as `""`. |
 | `picture` | `null` | The selected image file, stored separately from the text fields. |
+| `errors` | `{}` | Validation error messages keyed by field name (e.g. `{ name: "Name is required" }`). Empty object = no errors. |
 
 ---
 
@@ -31,10 +32,20 @@ One function handles ALL input fields.
 - Spread operator: `{ ...form, [e.target.name]: e.target.value }` copies all existing fields, then overwrites only the one that changed.
 - Special case: if `name === "picture"`, stores `e.target.files[0]` in the separate `picture` state.
 
+### `validate()`
+Runs before the axios call in `handleSubmit`. Checks:
+- `name` must not be blank.
+- `price` must be a positive number (`!isNaN(price) && price > 0`).
+- `description` must not be blank.
+
+Returns an object of error messages (e.g. `{ price: "Enter a valid price" }`). If the object is empty, all fields passed.
+
 ### `handleSubmit(e)`
 - `e.preventDefault()` stops the browser from refreshing the page on form submit.
-- **ADD mode** (`editingId === null`): sends `POST /products/add` with `multipart/form-data`. On success, appends new product: `[...products, response.data]`.
+- Calls `validate()` first. If any errors exist, stores them in `errors` state (which renders inline error messages under each field) and stops — does not call axios.
+- **ADD mode** (`editingId === null`): sends `POST /products/add` with `multipart/form-data`. On success, appends new product: `[...products, response.data]`. Fires `toast.success('Product added!')`.
 - **EDIT mode**: sends `PUT /products/edit/:id`. On success, replaces the old product using `.map()`.
+- On axios failure (ADD only): fires `toast.error('Could not add product')`.
 
 ### `handleEditClick(product)`
 Switches to EDIT mode: stores the product's ID in `editingId` and pre-fills `form` with its current values.
@@ -52,6 +63,7 @@ Exits EDIT mode and clears the form (resets `editingId` to `null`).
 
 - Form heading toggles: `editingId ? "✏️ Edit Product" : "➕ Add New Product"`.
 - Each `<input>` has `name`, `value`, and `onChange` — this is a **controlled input** (React is always in charge of the displayed value). `required` makes the browser refuse to submit if left empty.
+- `{errors.name && <p>...</p>}` — inline error messages rendered below each field when `validate()` finds a problem.
 - `{editingId && <button>Cancel</button>}` — the `&&` operator renders the Cancel button only in EDIT mode.
 - `() => handleEditClick(p)` — arrow function wrapper delays the call until the button is clicked. Without it, the function would fire immediately when the page loads.
 - `() => handleDelete(p._id)` — same pattern for Delete.

@@ -61,3 +61,50 @@ MongoDB automatically adds:
 | `new Product({...}).save()` | Create and save a new product |
 | `Product.findByIdAndUpdate(id, data, opts)` | Edit an existing product |
 | `Product.findByIdAndDelete(id)` | Delete a product |
+
+---
+
+# Order.js — Notes
+
+## Purpose
+
+Defines the **Order blueprint** (Schema + Model) used by Mongoose to save customer orders in MongoDB. An order is created when the user completes the checkout flow.
+
+---
+
+## The Schema
+
+### Fields
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `name` | `String` | Yes | Customer's full name |
+| `email` | `String` | Yes | Customer's email address |
+| `items` | `Array` | Yes | Array of `{ product, quantity }` objects (see below) |
+| `total` | `Number` | Yes | Grand total in dollars, pre-calculated by the front-end |
+| `createdAt` | `Date` | No | Defaults to `Date.now` — automatically set to the current timestamp when the order is saved |
+
+### `items` Sub-fields
+
+Each element in `items` is an object with:
+
+| Sub-field | Type | Required | Notes |
+|---|---|---|---|
+| `product` | `ObjectId` | Yes | References the `Product` collection (`ref: "Product"`). Mongoose can populate this to get the full product object if needed. |
+| `quantity` | `Number` | Yes | How many units of this product were ordered |
+
+The `ref: "Product"` option enables Mongoose's `.populate()` in future queries to replace the ObjectId with the actual Product document.
+
+---
+
+## The Model
+
+`mongoose.model("Order", orderSchema)` creates the Model and maps to a `orders` collection in MongoDB.
+
+### Methods Available on the Model
+
+| Method | What it does |
+|---|---|
+| `new Order({...}).save()` | Create and save a new order |
+| `Order.find()` | Get all orders |
+| `Order.findById(id)` | Get one order by its `_id` |

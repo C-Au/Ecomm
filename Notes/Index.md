@@ -5,6 +5,7 @@
 - `require('dotenv').config()` reads the `.env` file in this folder and loads its values into `process.env` so we can access them safely (e.g. `process.env.MONGO_URI`). This MUST be the very first line so that every other file that runs after it can also read those environment variables.
 - `require('mongoose')` loads Mongoose — a library that lets Node.js talk to MongoDB in a structured, organized way.
 - `require('./models/Product')` loads the Product blueprint defined in `models/Product.js`. Used to read and write products in the database.
+- `require('./models/Order')` loads the Order blueprint defined in `models/Order.js`. Used to save customer orders in the database.
 - `require('express')` loads the Express library — the tool used to create a web server and define URL routes.
 - `express()` creates the actual server application.
 - `HTTP_PORT` is the port number the server listens on. `process.env.PORT` checks if a hosting service (like Railway or Render) has set a port for us; if not, falls back to `8080`.
@@ -106,6 +107,20 @@ A simple sanity check. Visiting `http://localhost:8080/` in the browser shows th
 
 ---
 
+## Orders Routes
+
+### POST `/orders` — Place a New Order
+
+- Accepts a JSON body (no file upload needed — orders contain only text data).
+- Destructures `name`, `email`, `items`, and `total` from `req.body`.
+- **Validation:** if `name`, `email`, or `items` are missing, or if `items` is not a non-empty array, returns a `400` (Bad Request) with an error message.
+- `new Order({...})` creates a new Order document in memory using the Order schema.
+- `items` is an array of `{ product: ObjectId, quantity: Number }` — the front-end sends `product._id` strings which Mongoose coerces to ObjectIds.
+- `total` is the grand total in dollars, pre-calculated by the front-end (`cartTotal`).
+- `.save()` writes the order to MongoDB. Status `201` is returned with the saved order object.
+
+---
+
 ## Starting the Server
 
 `app.listen(port, callback)` tells Express to start listening for incoming requests on the given port. Once ready, it calls `onHttpStart()` which prints a confirmation message to the terminal.
@@ -135,3 +150,8 @@ Three bugs fixed in `GET /products`:
 - Removed the `console.log` inside `.map()` in `GET /products` — no longer needed.
 - Updated `GET /product/search_id/:id` to also build a picture `src` string before returning, and added a `console.log(product)` for debugging.
 - Updated `PUT /products/edit/:id` to accept an optional picture upload via `upload.single("picture")`. The picture field is only overwritten when a new file is actually sent.
+
+### June 20, 2026
+
+- Added `require('./models/Order')` import to load the Order model.
+- Added `POST /orders` route. Accepts `{ name, email, items, total }` as JSON. Validates required fields and saves a new Order document to MongoDB. Returns `201` with the saved order on success.
