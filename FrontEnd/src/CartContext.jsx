@@ -18,13 +18,20 @@ export function CartProvider({ children }) {
   function addToCart(product) {
     setCart((prev) => {
       const existing = prev.find((item) => item.product._id === product._id);
+
       if (existing) {
-        return prev.map((item) =>
-          item.product._id === product._id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
+        return prev.map((item) => {
+          if (item.product._id === product._id) {
+            return {
+              ...item,
+              quantity: item.quantity + 1,
+            };
+          }
+
+          return item;
+        });
       }
+
       return [...prev, { product, quantity: 1 }];
     });
   }
@@ -39,9 +46,9 @@ export function CartProvider({ children }) {
         .map((item) =>
           item.product._id === productId
             ? { ...item, quantity: item.quantity + delta }
-            : item
+            : item,
         )
-        .filter((item) => item.quantity > 0)
+        .filter((item) => item.quantity > 0),
     );
   }
 
@@ -52,12 +59,20 @@ export function CartProvider({ children }) {
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const cartTotal = cart.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
-    0
+    0,
   );
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, cartCount, cartTotal }}
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+        cartCount,
+        cartTotal,
+      }}
     >
       {children}
     </CartContext.Provider>
