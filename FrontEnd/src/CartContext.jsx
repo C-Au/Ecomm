@@ -41,15 +41,24 @@ export function CartProvider({ children }) {
   }
 
   function updateQuantity(productId, delta) {
-    setCart((prev) =>
-      prev
-        .map((item) =>
-          item.product._id === productId
-            ? { ...item, quantity: item.quantity + delta }
-            : item,
-        )
-        .filter((item) => item.quantity > 0),
-    );
+    setCart((prev) => {
+      const updatedItems = prev.map((item) => {
+        if (item.product._id === productId) {
+          return {
+            ...item,
+            quantity: item.quantity + delta,
+          };
+        }
+
+        return item;
+      });
+
+      const nonZeroItems = updatedItems.filter((item) => {
+        return item.quantity > 0;
+      });
+
+      return nonZeroItems;
+    });
   }
 
   function clearCart() {
