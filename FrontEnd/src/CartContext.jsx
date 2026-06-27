@@ -16,6 +16,17 @@ export function CartProvider({ children }) {
   }, [cart]);
 
   function addToCart(product) {
+
+    /*
+      [{item, qty}, {item, qty}, {item, qty}, {}}]
+
+      {
+        productId : qty, to object
+        productId : qty,
+        productId : qty
+      }
+    */
+
     setCart((prev) => {
       const existing = prev.find((item) => item.product._id === product._id);
 
